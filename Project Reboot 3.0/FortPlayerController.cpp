@@ -910,6 +910,17 @@ void AFortPlayerController::ServerCreateBuildingActorHook(UObject* Context, FFra
 		}
 	}
 
+	{
+    auto BuildingClassName = BuildingClass->GetName();
+    auto EndsWith = [&](const std::string& Suffix) {
+        return BuildingClassName.size() >= Suffix.size() && BuildingClassName.compare(BuildingClassName.size() - Suffix.size(), Suffix.size(), Suffix) == 0;
+    };
+    bool bIsBasePiece = EndsWith("_Solid_C") || EndsWith("_Floor_C") || EndsWith("_StairW_C") || EndsWith("_RoofC_C");
+    LOG_INFO(LogDev, "Build request: {} base={}", BuildingClassName, bIsBasePiece);
+    if (!bIsBasePiece)
+        return ServerCreateBuildingActorOriginal(Context, Stack, Ret);
+}
+	
 	if (!GameState->IsPlayerBuildableClass(BuildingClass))
 	{
 		LOG_INFO(LogDev, "Cheater most likely.");
