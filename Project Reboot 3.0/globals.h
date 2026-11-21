@@ -6,7 +6,7 @@
 
 namespace Globals
 {
-	extern inline bool bCreative = false;
+	extern inline bool bCreative = true;
 	extern inline bool bGoingToPlayEvent = false;
 	extern inline bool bEnableAGIDs = true;
 	extern inline bool bNoMCP = true;
