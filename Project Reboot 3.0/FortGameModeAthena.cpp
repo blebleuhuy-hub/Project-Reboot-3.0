@@ -784,7 +784,7 @@ bool AFortGameModeAthena::Athena_ReadyToStartMatchHook(AFortGameModeAthena* Game
 				bShouldSkipAircraft = CurrentPlaylist->Get<bool>(bSkipAircraftOffset);
 		}
 
-		float Duration = bShouldSkipAircraft ? 0 : 100000;
+		float Duration = (bShouldSkipAircraft && !Globals::bCreative) ? 0 : 100000;
 		float EarlyDuration = Duration;
 
 		float TimeSeconds = GameState->GetServerWorldTimeSeconds(); // UGameplayStatics::GetTimeSeconds(GetWorld());
