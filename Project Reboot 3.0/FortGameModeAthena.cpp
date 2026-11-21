@@ -1727,10 +1727,7 @@ void AFortGameModeAthena::Athena_HandleStartingNewPlayerHook(AFortGameModeAthena
 
 			Portal->GetLinkedVolume()->GetVolumeState() = EVolumeState::Ready;
 
-			UFortPlaysetItemDefinition* IslandPlayset = FindObject<UFortPlaysetItemDefinition>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed");
-if (!IslandPlayset)
-    IslandPlayset = (UFortPlaysetItemDefinition*)LoadObject<UObject>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed", UObject::StaticClass());
-LOG_INFO(LogCreative, "IslandPlayset: {}", __int64(IslandPlayset));
+			    IslandPlayset = LoadObject<UFortPlaysetItemDefinition>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed", FindObject<UClass>(L"/Script/FortniteGame.FortPlaysetItemDefinition"));
 
 			if (auto Volume = NewPlayer->GetCreativePlotLinkedVolume())
 			{
@@ -1756,9 +1753,17 @@ LOG_INFO(LogCreative, "IslandPlayset: {}", __int64(IslandPlayset));
 {
     UFortPlaysetItemDefinition::ShowPlayset(IslandPlayset, Portal->GetLinkedVolume());
 
-    if (IslandPlayset->GetOffset("SizeX", false) != -1)
+        auto SizeXOffset = IslandPlayset->GetOffset("SizeX", false);
+    auto SizeYOffset = IslandPlayset->GetOffset("SizeY", false);
+    auto SizeZOffset = IslandPlayset->GetOffset("SizeZ", false);
+
+    if (SizeXOffset != -1 && SizeYOffset != -1 && SizeZOffset != -1)
     {
-        Portal->GetLinkedVolume()->UpdateSize({ (float)IslandPlayset->Get<int>("SizeX"), (float)IslandPlayset->Get<int>("SizeY"), (float)IslandPlayset->Get<int>("SizeZ") });
+        FVector NewSize{};
+        NewSize.X = (float)IslandPlayset->Get<int>(SizeXOffset);
+        NewSize.Y = (float)IslandPlayset->Get<int>(SizeYOffset);
+        NewSize.Z = (float)IslandPlayset->Get<int>(SizeZOffset);
+        Portal->GetLinkedVolume()->UpdateSize(NewSize);
         LOG_INFO(LogCreative, "Volume resized");
     }
 }
