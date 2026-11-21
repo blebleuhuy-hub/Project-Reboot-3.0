@@ -35,5 +35,5 @@ void UFortPlaysetItemDefinition::ShowPlayset(UFortPlaysetItemDefinition* Playset
 	static auto SetPlaysetFn = FindObject<UFunction>("/Script/FortniteGame.PlaysetLevelStreamComponent.SetPlayset");
 	LevelStreamComponent->ProcessEvent(SetPlaysetFn, &PlaysetItemDef);
 
-	LoadPlaysetOriginal(LevelStreamComponent);
+	//LoadPlaysetOriginal(LevelStreamComponent);
 }
