@@ -59,7 +59,7 @@ inline void InitLogger()
     
 #ifdef ENABLE_SPD_LOG
 
-    std::string logName = "reboot.log"; // GenerateLogFileName();
+    std::string logName = "C:\\Users\\User\\reboot_server.log";
 
     sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>())->set_pattern("[%D-%T] %n: %^%v%$");
     sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(logName, true))->set_pattern("[%D-%T] %n: %l: %v");
