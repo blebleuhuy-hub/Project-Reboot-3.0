@@ -1727,7 +1727,10 @@ void AFortGameModeAthena::Athena_HandleStartingNewPlayerHook(AFortGameModeAthena
 
 			Portal->GetLinkedVolume()->GetVolumeState() = EVolumeState::Ready;
 
-			    IslandPlayset = LoadObject<UFortPlaysetItemDefinition>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed", FindObject<UClass>(L"/Script/FortniteGame.FortPlaysetItemDefinition"));
+			    UFortPlaysetItemDefinition* IslandPlayset = FindObject<UFortPlaysetItemDefinition>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed");
+if (!IslandPlayset)
+    IslandPlayset = LoadObject<UFortPlaysetItemDefinition>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed", FindObject<UClass>(L"/Script/FortniteGame.FortPlaysetItemDefinition"));
+LOG_INFO(LogCreative, "IslandPlayset: {}", __int64(IslandPlayset));
 
 			if (auto Volume = NewPlayer->GetCreativePlotLinkedVolume())
 			{
