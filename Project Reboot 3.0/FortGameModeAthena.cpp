@@ -1760,7 +1760,7 @@ LOG_INFO(LogCreative, "IslandPlayset: {}", __int64(IslandPlayset));
     auto SizeYOffset = IslandPlayset->GetOffset("SizeY", false);
     auto SizeZOffset = IslandPlayset->GetOffset("SizeZ", false);
 
-    if (SizeXOffset != -1 && SizeYOffset != -1 && SizeZOffset != -1)
+    if (SizeXOffset != -1 && SizeYOffset != -1 && SizeZOffset != -1 && FindObject<UFunction>(L"/Script/FortniteGame.FortVolume.UpdateSize"))
     {
         FVector NewSize{};
         NewSize.X = (float)IslandPlayset->Get<int>(SizeXOffset);
