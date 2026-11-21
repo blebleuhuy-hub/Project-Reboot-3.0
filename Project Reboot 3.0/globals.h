@@ -14,7 +14,7 @@ namespace Globals
 	// extern inline bool bLateGame = false;
 	extern inline std::atomic<bool> bLateGame(false);
 
-	extern inline bool bInfiniteMaterials = false;
+	extern inline bool bInfiniteMaterials = true;
 	extern inline bool bInfiniteAmmo = false;
 	extern inline bool bShouldUseReplicationGraph = false;
 
