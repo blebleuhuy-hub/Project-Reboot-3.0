@@ -1727,7 +1727,10 @@ void AFortGameModeAthena::Athena_HandleStartingNewPlayerHook(AFortGameModeAthena
 
 			Portal->GetLinkedVolume()->GetVolumeState() = EVolumeState::Ready;
 
-			static auto IslandPlayset = FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed");
+			UFortPlaysetItemDefinition* IslandPlayset = FindObject<UFortPlaysetItemDefinition>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed");
+if (!IslandPlayset)
+    IslandPlayset = (UFortPlaysetItemDefinition*)LoadObject<UObject>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed", UObject::StaticClass());
+LOG_INFO(LogCreative, "IslandPlayset: {}", __int64(IslandPlayset));
 
 			if (auto Volume = NewPlayer->GetCreativePlotLinkedVolume())
 			{
@@ -1749,7 +1752,20 @@ void AFortGameModeAthena::Athena_HandleStartingNewPlayerHook(AFortGameModeAthena
 				}
 			}
 
-			UFortPlaysetItemDefinition::ShowPlayset(IslandPlayset, Portal->GetLinkedVolume());
+			if (IslandPlayset && Portal->GetLinkedVolume())
+{
+    UFortPlaysetItemDefinition::ShowPlayset(IslandPlayset, Portal->GetLinkedVolume());
+
+    if (IslandPlayset->GetOffset("SizeX", false) != -1)
+    {
+        Portal->GetLinkedVolume()->UpdateSize({ (float)IslandPlayset->Get<int>("SizeX"), (float)IslandPlayset->Get<int>("SizeY"), (float)IslandPlayset->Get<int>("SizeZ") });
+        LOG_INFO(LogCreative, "Volume resized");
+    }
+}
+else
+{
+    LOG_WARN(LogCreative, "IslandPlayset or LinkedVolume is null!");
+}
 
 			LOG_INFO(LogCreative, "Initialized player portal!");
 		}
