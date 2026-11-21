@@ -1731,6 +1731,26 @@ void AFortGameModeAthena::Athena_HandleStartingNewPlayerHook(AFortGameModeAthena
 if (!IslandPlayset)
     IslandPlayset = LoadObject<UFortPlaysetItemDefinition>(L"/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed", FindObject<UClass>(L"/Script/FortniteGame.FortPlaysetItemDefinition"));
 LOG_INFO(LogCreative, "IslandPlayset: {}", __int64(IslandPlayset));
+			static bool bTriedEnableJIP = false;
+if (!bTriedEnableJIP)
+{
+    bTriedEnableJIP = true;
+    auto CreativePlaylist = FindObject<UObject>(L"/Game/Athena/Playlists/Creative/Playlist_PlaygroundV2.Playlist_PlaygroundV2");
+    if (CreativePlaylist)
+    {
+        auto JIPOffset = CreativePlaylist->GetOffset("bAllowJoinInProgress", false);
+        LOG_INFO(LogCreative, "bAllowJoinInProgress offset: {}", JIPOffset);
+        if (JIPOffset != -1)
+        {
+            auto JIPFieldMask = GetFieldMask(CreativePlaylist->GetProperty("bAllowJoinInProgress"));
+            CreativePlaylist->SetBitfieldValue(JIPOffset, JIPFieldMask, true);
+        }
+    }
+    else
+    {
+        LOG_WARN(LogCreative, "Creative playlist not found for JIP");
+    }
+}
 
 			if (auto Volume = NewPlayer->GetCreativePlotLinkedVolume())
 			{
